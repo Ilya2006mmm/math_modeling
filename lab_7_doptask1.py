@@ -4,44 +4,40 @@ from matplotlib.animation import FuncAnimation
 
 fig, ax = plt.subplots()
 
-ball, = plt.plot([], [], '-', color='r', label='Ball')
+ball, = plt.plot([], [], 'o', color='r', label='Ball')
+cyc, = plt.plot([], [], 'o', color='b', label='Ball')
+trajectory, =  plt.plot([], [], 'o', color='b', label='Ball')
+
+def cycloida(R, time):
+    x = R * (time - np.sin(time)) - R
+    y = R * (1 - np.cos(time))  - R
+    return x, y
+
 
 def circle_move(R, vx0, vy0, time):
     x0 = vx0 * time
     y0 = vy0 * time
     alpha = np.arange(0, 2 * np.pi, 0.1)
-    x = x0 + R * np.cos(alpha) ** 3
-    y = y0 + R * np.sin(alpha) ** 3
+    x = x0 + R * np.cos(alpha) - R
+    y = y0 + R * np.sin(alpha)
     return x, y
 
-edge = 1
+edge = 3
 plt.axis('equal')
 ax.set_xlim(-edge, edge)
 ax.set_ylim(-edge, edge)
 
+x, y = [], []
+
 def animate(i):
-    ball.set_data(circle_move(R = 0.05, vx0 = 0.005, vy0 = 0.005, time = i))
+    ball.set_data(circle_move(R = 0.5, vx0 = 0.01, vy0 = 0, time = i))
+    coords = cycloida(R=0.5, time=i/50)
+    x.append(coords[0])
+    y.append(coords[1])
+    cyc.set_data(x[i], y[i])
+    trajectory.set_data(x, y)
 
-ani = FuncAnimation(fig, animate, frames = 180, interval = 30)
 
-t = np.arange(-2 * np.pi, 2 * np.pi, 0.1)
-R = 3
-x = R * (t - np.sin(t))
-y = R * (1 - np.cos(t))
+ani = FuncAnimation(fig, animate, frames = 200, interval = 30)
 
-plt.plot(x, y, ls='-', lw = 3)
-
-plt.axis('equal')
-
-ani.save('lec_7_complexobject.gif')
-
-t = np.arange(-2 * np.pi, 2 * np.pi, 0.1)
-R = 6
-x = R * np.cos(t)**3
-y = R * np.sin(t)**3
-
-plt.plot(x, y, ls='-', lw = 3)
-
-plt.axis('equal')
-
-plt.savefig('pic_2.png')
+ani.save('lab_7_doptask1.gif')
