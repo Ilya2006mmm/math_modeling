@@ -8,7 +8,7 @@ y = np.arange(-5, 5, 0.01)
 def diff_func(sys, y):
     z, y = sys 
     dy_dt = z
-    dz_dy = -4 * z + 5 * y
+    dz_dy = -4 * z - 5 * y
     return dy_dt, dz_dy
 
 
