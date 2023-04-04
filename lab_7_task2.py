@@ -4,7 +4,7 @@ from matplotlib.animation import FuncAnimation
 
 fig, ax = plt.subplots()
 
-ball, = plt.plot([], [], '-', color='r', label='Ball')
+ball, = plt.plot([], [], 'o', color='r', label='Ball')
 
 def circle_move(R, vx0, vy0, time):
     x0 = vx0 * time
@@ -20,7 +20,7 @@ ax.set_xlim(-edge, edge)
 ax.set_ylim(-edge, edge)
 
 def animate(i):
-    ball.set_data(circle_move(R = 0.005 * i, vx0 = 0, vy0 = 0, time = i))
+    ball.set_data(circle_move(R = 0.05 * i, vx0 = 0, vy0 = 0, time = i))
 
 ani = FuncAnimation(fig, animate, frames = 180, interval = 30)
 
